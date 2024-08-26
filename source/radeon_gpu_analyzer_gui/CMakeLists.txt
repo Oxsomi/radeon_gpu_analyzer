@@ -75,8 +75,13 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/../../external/qt_common" "../qt_common"
 
 # TinyXML library
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    find_library(TINYXML_LIB "tinyxml2.lib" HINTS "${PROJECT_SOURCE_DIR}/../../external/third_party/tinyxml2/Lib/VS2015/Win64/Release/MD")
-    find_library(TINYXML_LIBD "tinyxml2-d.lib" HINTS "${PROJECT_SOURCE_DIR}/../../external/third_party/tinyxml2/Lib/VS2015/Win64/Debug/MDd")
+    if(NOT RGA_ENABLE_MT)
+        find_library(TINYXML_LIB "tinyxml2.lib" HINTS "${PROJECT_SOURCE_DIR}/../../external/third_party/tinyxml2/Lib/VS2015/Win64/Release/MD")
+        find_library(TINYXML_LIBD "tinyxml2-d.lib" HINTS "${PROJECT_SOURCE_DIR}/../../external/third_party/tinyxml2/Lib/VS2015/Win64/Debug/MDd")
+    else()
+        find_library(TINYXML_LIB "tinyxml2.lib" HINTS "${PROJECT_SOURCE_DIR}/../../external/third_party/tinyxml2/Lib/VS2017/Win64/Release/MT")
+        find_library(TINYXML_LIBD "tinyxml2d.lib" HINTS "${PROJECT_SOURCE_DIR}/../../external/third_party/tinyxml2/Lib/VS2017/Win64/Debug/MTd")
+    endif()
 else()
     find_library(TINYXML_LIB "libtinyxml2.a" HINTS "${PROJECT_SOURCE_DIR}/../../external/third_party/tinyxml2/Lib/Linux/x64/Release")
 endif()

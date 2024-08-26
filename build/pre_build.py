@@ -249,7 +249,10 @@ def generate_config(config, args):
 		
     if sys.platform == "win32":
         if args.use_mt:
-            cmake_args.extend(["-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"])
+            if (config == "") or (config == "debug"):
+                cmake_args.extend(["-DCMAKE_POLICY_DEFAULT_CMP0091=NEW", "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug", "-DRGA_ENABLE_MT=ON"])
+            else:
+                cmake_args.extend(["-DCMAKE_POLICY_DEFAULT_CMP0091=NEW", "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded", "-DRGA_ENABLE_MT=ON"])
 
     if sys.platform.startswith('linux'):
         if args.disable_extra_qt_lib_deploy:

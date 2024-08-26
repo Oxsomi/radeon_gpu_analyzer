@@ -27,8 +27,13 @@ include_directories("${PROJECT_SOURCE_DIR}/../../../../external/third_party")
 include_directories("${PROJECT_SOURCE_DIR}/../../../../")
 include_directories("${PROJECT_SOURCE_DIR}/../../../radeon_gpu_analyzer_backend")
 
-find_library(TINYXML_LIB "tinyxml2.lib" HINTS "${PROJECT_SOURCE_DIR}/../../../../external/third_party/tinyxml2/Lib/VS2015/Win64/Release/MD")
-find_library(TINYXML_LIBD "tinyxml2-d.lib" HINTS "${PROJECT_SOURCE_DIR}/../../../../external/third_party/tinyxml2/Lib/VS2015/Win64/Debug/MDd")
+if(NOT RGA_ENABLE_MT)
+    find_library(TINYXML_LIB "tinyxml2.lib" HINTS "${PROJECT_SOURCE_DIR}/../../../../external/third_party/tinyxml2/Lib/VS2015/Win64/Release/MD")
+    find_library(TINYXML_LIBD "tinyxml2-d.lib" HINTS "${PROJECT_SOURCE_DIR}/../../../../external/third_party/tinyxml2/Lib/VS2015/Win64/Debug/MDd")
+else()
+    find_library(TINYXML_LIB "tinyxml2.lib" HINTS "${PROJECT_SOURCE_DIR}/../../../../external/third_party/tinyxml2/Lib/VS2017/Win64/Release/MT")
+    find_library(TINYXML_LIBD "tinyxml2d.lib" HINTS "${PROJECT_SOURCE_DIR}/../../../../external/third_party/tinyxml2/Lib/VS2017/Win64/Debug/MTd")
+endif()
 
 add_executable(dx12_backend ${SOURCE_FILES} ${INCLUDES})
 
